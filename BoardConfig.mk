@@ -1,0 +1,89 @@
+#
+# Copyright (C) 2026 PitchBlack Recovery Project
+# Board Configuration for Motorola Boston (boston) - Android 12.1 Vendor Boot
+# SoC: Qualcomm Snapdragon 6 Gen 1 (SM6450)
+#
+
+DEVICE_PATH := device/motorola/boston
+
+ALLOW_MISSING_DEPENDENCIES := true
+
+# Architecture
+TARGET_ARCH := arm64
+TARGET_ARCH_VARIANT := armv8-a
+TARGET_CPU_ABI := arm64-v8a
+TARGET_CPU_ABI2 :=
+TARGET_CPU_VARIANT := generic
+
+TARGET_2ND_ARCH := arm
+TARGET_2ND_ARCH_VARIANT := armv7-a-neon
+TARGET_2ND_CPU_ABI := armeabi-v7a
+TARGET_2ND_CPU_ABI2 := armeabi
+TARGET_2ND_CPU_VARIANT := generic
+
+# Kernel Boot Image & Header Configuration (v3/v4 for Android 12.1 vendor_boot)
+BOARD_BOOT_HEADER_VERSION := 3
+BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOT_HEADER_VERSION)
+
+BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lmk.homers=51200 androidboot.usbcontroller=a600000.dwc3
+BOARD_KERNEL_PAGESIZE := 4096
+BOARD_KERNEL_BASE := 0x00000000
+BOARD_KERNEL_TAGS_OFFSET := 0x00000100
+BOARD_RAMDISK_OFFSET := 0x01000000
+BOARD_DTB_OFFSET := 0x01f00000
+
+# Kernel & Prebuilt DTB Setup
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image.gz
+TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb.img
+BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
+BOARD_RAMDISK_USE_LZ4 := true
+
+# Vendor Boot Integration for Android 12.1 / 12L
+BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
+BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
+BOARD_BUILD_VENDOR_BOOT_IMAGE := true
+BOARD_VENDOR_BOOTCONFIG := \
+    androidboot.hardware=qcom \
+    androidboot.memcg=1 \
+    androidboot.usbcontroller=a600000.dwc3
+
+# Platform Definitions
+TARGET_BOARD_PLATFORM := sm6450
+TARGET_BOOTLOADER_BOARD_NAME := boston
+
+# Partition Sizes & Layout
+BOARD_FLASH_BLOCK_SIZE := 262144
+BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
+BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 100663296
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
+BOARD_HAS_NO_REAL_SDCARD := true
+
+# Recovery & Storage
+BOARD_SUPPORTS_MISC_PARTITION := true
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery.fstab
+
+# PBRP 12.1 Specific UI & Crypto Flags
+TW_INCLUDE_CRYPTO := true
+TW_INCLUDE_CRYPTO_FQS := true
+TW_USE_TOOLBOX := true
+TW_INCLUDE_FASTBOOTD := true
+TW_INPUT_BLACKLIST := "hbtp_vm"
+TW_MAX_BRIGHTNESS := 255
+TW_DEFAULT_BRIGHTNESS := 150
+TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel0-backlight/brightness"
+TW_CUSTOM_CPU_TEMP_PATH := "/sys/class/thermal/thermal_zone0/temp"
+TW_EXCLUDE_DEFAULT_USB_INIT := true
+
+# PitchBlack v4.0 Custom Branding
+PB_BUILD_TYPE := Official
+TW_DEVICE_VERSION := 4.0
+PB_ENTRY_KEY := 115
+PB_CUSTOM_FONT := "Roboto"
+PB_VBRATION_SUPPORT := true
+TARGET_RECOVERY_QCOM_RTC_FIX := true
+
+TW_INTERNAL_STORAGE_PATH := "/sdcard"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
+TW_EXTERNAL_STORAGE_PATH := "/external_sd"
+TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
+TW_DEFAULT_EXTERNAL_STORAGE := true
