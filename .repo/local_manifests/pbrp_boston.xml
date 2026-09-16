@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <!-- Device Tree Repository for Motorola Boston (boston) - PBRP Android 12.1 -->
+  <project path="device/motorola/boston" name="Detroit313x/android_device_motorola_boston_v2" remote="github" revision="android-12.1" />
+</manifest>
