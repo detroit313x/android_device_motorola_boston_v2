@@ -1,0 +1,8 @@
+ro.sf.lcd_density=440
+ro.board.platform=qcom
+ro.arch=arm64
+ro.fastbootd.available=true
+ro.crypto.state=encrypted
+ro.crypto.type=file
+sys.usb.controller=a600000.dwc3
+sys.usb.ffs.aio_compat=true
